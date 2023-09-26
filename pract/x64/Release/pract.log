@@ -1,8 +1,0 @@
-﻿  pract.cpp
-C:\Users\Anton\Desktop\1\mp2-lab1-set\pract\pract.cpp(78,18): warning C4267: return: преобразование из "size_t" в "uint"; возможна потеря данных
-  Создание кода
-  7 of 24 functions (29.2%) were compiled, the rest were copied from previous compilation.
-    1 functions were new in current compilation
-    4 functions had inline decision re-evaluated but remain unchanged
-  Создание кода завершено
-  pract.vcxproj -> C:\Users\Anton\Desktop\1\mp2-lab1-set\build\x64\Release\pract.exe

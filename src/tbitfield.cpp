@@ -5,7 +5,8 @@
 // Переработано в соответсвии с C++11 (частично) Пановым А.А. 2021
 // Битовое поле
 
-#include <limits>
+#include <limits.h>
+#include <math.h>
 #include <iostream>
 #include "tbitfield.h"
 
