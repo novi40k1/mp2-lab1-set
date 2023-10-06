@@ -5,7 +5,7 @@
 // Переработано в соответсвии с C++11 (частично) Пановым А.А. 2021
 // Битовое поле
 
-#include <limits.h>
+#include <limits>
 #include <math.h>
 #include <iostream>
 #include "tbitfield.h"
@@ -13,8 +13,8 @@
 TBitField::TBitField(size_t len)
 {
     bitLen = len;
-    memLen = size_t(ceil(double(len) / (8*sizeof(uint))));
-    pMem = new uint[memLen];
+    memLen = size_t(ceil(double(len) / (8*sizeof(elType))));
+    pMem = new elType[memLen];
     for (size_t i = 0; i < memLen; i++){
         pMem[i] = 0;
     }
@@ -24,7 +24,7 @@ TBitField::TBitField(const TBitField& bf) // конструктор копиро
 {
     bitLen = bf.bitLen;
     memLen = bf.memLen;
-    pMem = new uint[memLen];
+    pMem = new elType[memLen];
     for (size_t i = 0; i < memLen; i++){
         pMem[i] = bf.pMem[i];
     }
@@ -32,23 +32,23 @@ TBitField::TBitField(const TBitField& bf) // конструктор копиро
 
 size_t TBitField::getIndex(const size_t n) const  // индекс в pМем для бита n
 {
-    return n/(8*sizeof(uint));
+    return n/(8*sizeof(elType));
 }
 
-uint TBitField::getMask(const size_t n) const // битовая маска для бита n
+elType TBitField::getMask(const size_t n) const // битовая маска для бита n
 {
-    return 1<<n;
+    return (elType)1<<n;
 }
 
 // доступ к битам битового поля
-uint TBitField::getLength() const // получить длину (к-во битов)
+elType TBitField::getLength() const // получить длину (к-во битов)
 {
-    return bitLen;
+    return (elType)bitLen;
 }
 
 size_t TBitField::getNumBytes() const // получить количество байт выделенной памяти
 {
-    return memLen * sizeof(uint);
+    return memLen * sizeof(elType);
 }
 
 void TBitField::setBit(const size_t n) // установить бит
@@ -69,7 +69,7 @@ bool TBitField::getBit(const size_t n) const // получить значени�
 {
     if (n < 0 || n >= bitLen)
         throw "Error";
-    return (pMem[getIndex(n)] | ~getMask(n - 8 * getIndex(n))) == UINT_MAX;
+    return (pMem[getIndex(n)] | ~getMask(n - 8 * getIndex(n))) == std::numeric_limits<elType>::max();
 }
 
 // битовые операции
@@ -77,7 +77,7 @@ TBitField& TBitField::operator=(const TBitField &bf) // присваивание
 {
     this->bitLen = bf.bitLen;
     this->memLen = bf.memLen;
-    this->pMem = new uint[this->memLen];
+    this->pMem = new elType[this->memLen];
     for (size_t i = 0; i < this->memLen; i++){
         this->pMem[i] = bf.pMem[i];
     }
@@ -141,7 +141,7 @@ TBitField::~TBitField()
 std::istream& operator>>(std::istream& istr, TBitField& bf) // ввод
 {
     for (size_t i = 0; i < bf.bitLen; i++) {
-        uint x;
+        elType x;
         istr >> x;
         if (x)
             bf.setBit(i);

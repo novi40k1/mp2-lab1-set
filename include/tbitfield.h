@@ -8,18 +8,18 @@
 #pragma once
 #include <iosfwd>
 
-typedef unsigned int uint;
+typedef size_t elType;
 
 class TBitField
 {
 private:
     size_t bitLen;   // длина битового поля - макс. к-во битов
-    uint *pMem;      // память для представления битового поля
-    size_t memLen;   // к-во эл-тов uint для представления бит.поля //длина массива pMem
+    elType *pMem;      // память для представления битового поля
+    size_t memLen;   // к-во эл-тов elType для представления бит.поля //длина массива pMem
 
     // методы реализации
     size_t getIndex(const size_t n) const; // индекс в pМем для бита n
-    uint getMask(const size_t n) const;    // битовая маска для бита n
+    elType getMask(const size_t n) const;    // битовая маска для бита n
                                  
 public:
      TBitField(size_t len);
@@ -27,7 +27,7 @@ public:
      ~TBitField();
 
     // доступ к битам
-    uint getLength() const;            // получить длину (к-во битов)
+    elType getLength() const;            // получить длину (к-во битов)
     size_t getNumBytes() const;        // получить количество байт выделенной памяти
     void setBit(const size_t n);       // установить бит
     void clrBit(const size_t n);       // очистить бит
@@ -46,5 +46,5 @@ public:
 };
 //   Структура хранения битового поля
 //   бит.поле - набор битов с номерами от 0 до bitLen
-//   массив pМем рассматривается как последовательность uint элементов
+//   массив pМем рассматривается как последовательность elType элементов
 //   биты в эл-тах pМем нумеруются справа налево (от младших к старшим)
